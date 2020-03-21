@@ -15,8 +15,6 @@
   "editor.tabCompletion": "on",
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
-  "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 10000,
   "files.hotExit": "onExit",
   "files.defaultLanguage": "",
   "files.trimTrailingWhitespace": true
