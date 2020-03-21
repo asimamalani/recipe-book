@@ -4,5 +4,6 @@
   "singleQuote": true,
   "trailingComma": "es5",
   "printWidth": 120,
-  "proseWrap": "always"
+  "quoteProps": "consistent",
+  "useTabs": false
 }
