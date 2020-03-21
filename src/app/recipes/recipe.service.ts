@@ -1,5 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { Recipe } from './recipe.model';
+import { Ingredient } from '../shared/ingredient.model';
 
 export class RecipeService {
   constructor() {}
@@ -8,14 +9,16 @@ export class RecipeService {
 
   private recipes: Recipe[] = [
     new Recipe(
-      'Pizza',
-      'A tasty cheese pizza!',
-      'https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/a019-jakubk-0793-crusty-pizza-with-salami-mushrooms-onion.jpg?w=800&dpr=1&fit=default&crop=default&auto=format&fm=pjpg&q=75&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=5e653010dd06591c50b3bd75aa332dc6'
+      'Tasty Schnitzel',
+      'A super-tasty Schnitzel, just awesome!',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Schnitzel.JPG/1024px-Schnitzel.JPG',
+      [new Ingredient('Meat', 1), new Ingredient('French Fries', 20)]
     ),
     new Recipe(
-      'Coal fired pizza',
-      'Looks Yummy!!!',
-      'https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/a019-jakubk-0760-homemade-pizza1.jpg?w=800&dpr=1&fit=default&crop=default&auto=format&fm=pjpg&q=75&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=5d06439b389e718a1d12e8797e55a9f1'
+      'Big Fat Burger',
+      'What else you need to say?',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Veggie_burger_flickr_user_divinemisscopa_creative_commons.jpg/1024px-Veggie_burger_flickr_user_divinemisscopa_creative_commons.jpg',
+      [new Ingredient('Veggie Patty', 1), new Ingredient('Buns', 2), new Ingredient('French Fries', 10)]
     ),
   ];
 
