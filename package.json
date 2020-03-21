@@ -12,6 +12,12 @@
     "precommit": "run-s format:fix lint"
   },
   "private": true,
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged && ng lint && ng test --watch=false",
+      "pre-push": "ng build --aot true"
+    }
+  },
   "dependencies": {
     "@angular/animations": "~9.0.6",
     "@angular/common": "~9.0.6",
@@ -49,6 +55,7 @@
     "protractor": "~5.4.3",
     "ts-node": "~8.3.0",
     "tslint": "~5.18.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "~3.7.5"
   }
 }
