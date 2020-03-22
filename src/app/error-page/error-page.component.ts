@@ -13,7 +13,7 @@ export class ErrorPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe(data => {
-      this.message = data['message'];
+      this.message = data.message;
     });
   }
 }
