@@ -17,7 +17,10 @@ export class RecipeService {
     new Recipe(
       'Big Fat Burger',
       'What else you need to say?',
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Veggie_burger_flickr_user_divinemisscopa_creative_commons.jpg/1024px-Veggie_burger_flickr_user_divinemisscopa_creative_commons.jpg',
+      ''.concat(
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Veggie_burger_flickr_user_divinemisscopa',
+        '_creative_commons.jpg/1024px-Veggie_burger_flickr_user_divinemisscopa_creative_commons.jpg'
+      ),
       [new Ingredient('Veggie Patty', 1), new Ingredient('Buns', 2), new Ingredient('French Fries', 10)]
     ),
   ];

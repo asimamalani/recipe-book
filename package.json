@@ -14,8 +14,8 @@
   "private": true,
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged && ng lint && ng test --watch=false --browsers=ChromeHeadless",
-      "pre-push": "ng build --aot true"
+      "pre-commit": "pretty-quick --staged && ng lint && npm test",
+      "pre-push": "ng build --prod"
     }
   },
   "dependencies": {
