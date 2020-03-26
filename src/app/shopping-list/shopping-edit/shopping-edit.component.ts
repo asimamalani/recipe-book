@@ -15,12 +15,12 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   @ViewChild('f') form: NgForm;
 
   private ingSelectedSub: Subscription;
-  // private editMode = false;
+  editMode = false;
   private editedIndex: number;
 
   ngOnInit(): void {
     this.ingSelectedSub = this.slService.ingredientSelected$.subscribe(ingIndex => {
-      // this.editMode = true;
+      this.editMode = true;
       this.editedIndex = ingIndex;
       const ingredient = this.slService.getIngredient(this.editedIndex);
       this.form.setValue({
@@ -35,7 +35,22 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     const name = formValue.name;
     const amount = formValue.amount;
     const ingredient = new Ingredient(name, +amount);
-    this.slService.addIngredient(ingredient);
+    if (this.editMode) {
+      this.slService.updateIngredient(this.editedIndex, ingredient);
+    } else {
+      this.slService.addIngredient(ingredient);
+    }
+    this.onClear();
+  }
+
+  onDelete() {
+    this.slService.deleteIngredient(this.editedIndex);
+    this.onClear();
+  }
+
+  onClear() {
+    this.editMode = false;
+    this.form.reset();
   }
 
   ngOnDestroy() {
