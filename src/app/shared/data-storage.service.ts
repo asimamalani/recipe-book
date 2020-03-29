@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap, map } from 'rxjs/operators';
+import { tap, map, catchError } from 'rxjs/operators';
 import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipe.model';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +26,10 @@ export class DataStorageService {
         });
       }),
       tap(recipes => this.recipeService.setRecipes(recipes))
+      // catchError(error => {
+      //   console.log(error.statusText);
+      //   return throwError(error.statusText);
+      // })
     );
   }
 }
