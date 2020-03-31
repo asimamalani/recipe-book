@@ -7,9 +7,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { throwError, Subject } from 'rxjs';
 import { User } from './user.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   constructor(private http: HttpClient) {}
 
@@ -35,9 +33,6 @@ export class AuthService {
     if (authRes) {
       const tokenExpirationDate = new Date(new Date().getTime() + +authRes.expiresIn * 1000);
       const user = new User(authRes.email, authRes.localId, authRes.idToken, tokenExpirationDate);
-      if (!this.user$) {
-        this.user$ = new Subject<User>();
-      }
       this.user$.next(user);
     }
   }
