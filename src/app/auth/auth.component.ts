@@ -15,4 +15,7 @@ export class AuthComponent implements OnInit {
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;
   }
+  onSubmit(formValue) {
+    console.log(formValue);
+  }
 }
