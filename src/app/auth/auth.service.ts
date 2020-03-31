@@ -3,8 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { AuthRequestBody } from './auth-request-body.model';
 import { AuthResponseData } from './auth-response-data.model';
 import { apiKey } from 'secret';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { throwError, Subject } from 'rxjs';
+import { User } from './user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,16 +13,33 @@ import { throwError } from 'rxjs';
 export class AuthService {
   constructor(private http: HttpClient) {}
 
+  user$ = new Subject<User>();
+
   signup(email: string, password: string) {
-    const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`;
-    const authRequestBody = { email, password, returnSecureToken: true } as AuthRequestBody;
-    return this.http.post<AuthResponseData>(url, authRequestBody).pipe(catchError(this.handleError));
+    return this.sendAuthRequest(email, password, 'signUp');
   }
 
   login(email: string, password: string) {
-    const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`;
+    return this.sendAuthRequest(email, password, 'signInWithPassword');
+  }
+
+  private sendAuthRequest(email: string, password: string, action: string) {
+    const url = `https://identitytoolkit.googleapis.com/v1/accounts:${action}?key=${apiKey}`;
     const authRequestBody = { email, password, returnSecureToken: true } as AuthRequestBody;
-    return this.http.post<AuthResponseData>(url, authRequestBody).pipe(catchError(this.handleError));
+    return this.http
+      .post<AuthResponseData>(url, authRequestBody)
+      .pipe(catchError(this.handleError), tap(this.handleAuthentication));
+  }
+
+  private handleAuthentication(authRes: AuthResponseData) {
+    if (authRes) {
+      const tokenExpirationDate = new Date(new Date().getTime() + +authRes.expiresIn * 1000);
+      const user = new User(authRes.email, authRes.localId, authRes.idToken, tokenExpirationDate);
+      if (!this.user$) {
+        this.user$ = new Subject<User>();
+      }
+      this.user$.next(user);
+    }
   }
 
   private handleError(errorResp: any) {
