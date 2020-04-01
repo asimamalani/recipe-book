@@ -26,7 +26,7 @@ export class AuthService {
     const authRequestBody = { email, password, returnSecureToken: true } as AuthRequestBody;
     return this.http
       .post<AuthResponseData>(url, authRequestBody)
-      .pipe(catchError(this.handleError), tap(this.handleAuthentication));
+      .pipe(catchError(this.handleError), tap(this.handleAuthentication.bind(this)));
   }
 
   private handleAuthentication(authRes: AuthResponseData) {
