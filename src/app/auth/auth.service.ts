@@ -4,14 +4,14 @@ import { AuthRequestBody } from './auth-request-body.model';
 import { AuthResponseData } from './auth-response-data.model';
 import { apiKey } from 'secret';
 import { catchError, tap } from 'rxjs/operators';
-import { throwError, Subject } from 'rxjs';
+import { throwError, BehaviorSubject } from 'rxjs';
 import { User } from './user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   constructor(private http: HttpClient) {}
 
-  user$ = new Subject<User>();
+  user$ = new BehaviorSubject<User>(null);
 
   signup(email: string, password: string) {
     return this.sendAuthRequest(email, password, 'signUp');
