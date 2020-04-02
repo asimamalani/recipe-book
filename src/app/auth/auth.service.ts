@@ -21,6 +21,10 @@ export class AuthService {
     return this.sendAuthRequest(email, password, 'signInWithPassword');
   }
 
+  logout() {
+    this.user$.next(null);
+  }
+
   private sendAuthRequest(email: string, password: string, action: string) {
     const url = `https://identitytoolkit.googleapis.com/v1/accounts:${action}?key=${apiKey}`;
     const authRequestBody = { email, password, returnSecureToken: true } as AuthRequestBody;
