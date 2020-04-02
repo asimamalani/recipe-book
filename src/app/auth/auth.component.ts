@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { AuthService } from './auth.service';
 import { Observable, Subscription } from 'rxjs';
 import { AuthResponseData } from './auth-response-data.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -10,7 +11,7 @@ import { AuthResponseData } from './auth-response-data.model';
   styleUrls: ['./auth.component.css'],
 })
 export class AuthComponent implements OnInit, OnDestroy {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   isLoginMode = true;
   isLoading = false;
@@ -43,6 +44,7 @@ export class AuthComponent implements OnInit, OnDestroy {
       authResponseData => {
         console.log(authResponseData);
         this.isLoading = false;
+        this.router.navigate(['/recipes']);
       },
       errorMessage => {
         console.log(errorMessage);

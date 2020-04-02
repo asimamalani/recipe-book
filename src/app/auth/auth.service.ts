@@ -6,10 +6,11 @@ import { apiKey } from 'secret';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError, BehaviorSubject } from 'rxjs';
 import { User } from './user.model';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   user$ = new BehaviorSubject<User>(null);
 
@@ -23,6 +24,7 @@ export class AuthService {
 
   logout() {
     this.user$.next(null);
+    this.router.navigate(['/auth']);
   }
 
   private sendAuthRequest(email: string, password: string, action: string) {
