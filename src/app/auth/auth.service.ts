@@ -24,7 +24,17 @@ export class AuthService {
 
   logout() {
     this.user$.next(null);
+    localStorage.removeItem('userData');
     this.router.navigate(['/auth']);
+  }
+
+  autologin() {
+    const user = JSON.parse(localStorage.getItem('userData'));
+    if (!user) {
+      return;
+    }
+    const loggedInUser = new User(user.email, user.id, user._token, new Date(user._tokenExpirationDate));
+    this.user$.next(loggedInUser);
   }
 
   private sendAuthRequest(email: string, password: string, action: string) {
@@ -40,6 +50,7 @@ export class AuthService {
       const tokenExpirationDate = new Date(new Date().getTime() + +authRes.expiresIn * 1000);
       const user = new User(authRes.email, authRes.localId, authRes.idToken, tokenExpirationDate);
       this.user$.next(user);
+      localStorage.setItem('userData', JSON.stringify(user));
     }
   }
 
