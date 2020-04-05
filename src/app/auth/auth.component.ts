@@ -18,7 +18,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   error: string = null;
 
   private authObs$: Observable<AuthResponseData>;
-  private authSub$: Subscription;
+  private authSub: Subscription;
 
   ngOnInit(): void {}
 
@@ -40,7 +40,7 @@ export class AuthComponent implements OnInit, OnDestroy {
       this.authObs$ = this.authService.signup(email, password);
     }
 
-    this.authSub$ = this.authObs$.subscribe(
+    this.authSub = this.authObs$.subscribe(
       authResponseData => {
         console.log(authResponseData);
         this.isLoading = false;
@@ -57,6 +57,6 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.authSub$.unsubscribe();
+    this.authSub.unsubscribe();
   }
 }

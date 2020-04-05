@@ -14,12 +14,12 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
 
   @ViewChild('f') form: NgForm;
 
-  private ingSelectedSub: Subscription;
+  private ingredientSub: Subscription;
   editMode = false;
   private editedIndex: number;
 
   ngOnInit(): void {
-    this.ingSelectedSub = this.slService.ingredientSelected$.subscribe(ingIndex => {
+    this.ingredientSub = this.slService.ingredientSelected$.subscribe(ingIndex => {
       this.editMode = true;
       this.editedIndex = ingIndex;
       const ingredient = this.slService.getIngredient(this.editedIndex);
@@ -54,6 +54,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ingSelectedSub.unsubscribe();
+    this.ingredientSub.unsubscribe();
   }
 }
