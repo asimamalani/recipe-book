@@ -13,6 +13,7 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   user$ = new BehaviorSubject<User>(null);
+  private interval: any;
 
   signup(email: string, password: string) {
     return this.sendAuthRequest(email, password, 'signUp');
@@ -22,19 +23,31 @@ export class AuthService {
     return this.sendAuthRequest(email, password, 'signInWithPassword');
   }
 
-  logout() {
-    this.user$.next(null);
-    localStorage.removeItem('userData');
-    this.router.navigate(['/auth']);
-  }
-
   autologin() {
     const user = JSON.parse(localStorage.getItem('userData'));
     if (!user) {
       return;
     }
-    const loggedInUser = new User(user.email, user.id, user._token, new Date(user._tokenExpirationDate));
+    const tokenExpirationDate = new Date(user._tokenExpirationDate);
+    this.autologout(tokenExpirationDate.getTime() - new Date().getTime());
+    const loggedInUser = new User(user.email, user.id, user._token, tokenExpirationDate);
     this.user$.next(loggedInUser);
+  }
+
+  logout() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
+    this.interval = null;
+    this.user$.next(null);
+    localStorage.removeItem('userData');
+    this.router.navigate(['/auth']);
+  }
+
+  autologout(timeout: number) {
+    this.interval = setTimeout(() => {
+      this.logout();
+    }, timeout);
   }
 
   private sendAuthRequest(email: string, password: string, action: string) {
@@ -47,7 +60,9 @@ export class AuthService {
 
   private handleAuthentication(authRes: AuthResponseData) {
     if (authRes) {
-      const tokenExpirationDate = new Date(new Date().getTime() + +authRes.expiresIn * 1000);
+      const expiresInMill = +authRes.expiresIn * 1000;
+      this.autologout(expiresInMill);
+      const tokenExpirationDate = new Date(new Date().getTime() + expiresInMill);
       const user = new User(authRes.email, authRes.localId, authRes.idToken, tokenExpirationDate);
       this.user$.next(user);
       localStorage.setItem('userData', JSON.stringify(user));
