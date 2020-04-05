@@ -1,9 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from './auth.service';
 import { Observable, Subscription } from 'rxjs';
 import { AuthResponseData } from './auth-response-data.model';
 import { Router } from '@angular/router';
+import { AlertComponent } from '../shared/alert/alert.component';
+import { PlaceholderDirective } from '../shared/placeholder.directive';
 
 @Component({
   selector: 'app-auth',
@@ -11,14 +13,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./auth.component.css'],
 })
 export class AuthComponent implements OnInit, OnDestroy {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private componentFactoryResolver: ComponentFactoryResolver
+  ) {}
 
+  @ViewChild(PlaceholderDirective) placeholderDirective: PlaceholderDirective;
   isLoginMode = true;
   isLoading = false;
-  error: string = null;
+  // error: string = null;
 
   private authObs$: Observable<AuthResponseData>;
   private authSub: Subscription;
+  private alertSub: Subscription;
 
   ngOnInit(): void {}
 
@@ -48,19 +56,34 @@ export class AuthComponent implements OnInit, OnDestroy {
       },
       errorMessage => {
         console.log(errorMessage);
-        this.error = errorMessage;
+        // this.error = errorMessage;
         this.isLoading = false;
+        this.showAlert(errorMessage);
       }
     );
 
     authForm.reset();
   }
 
-  onHandleError() {
-    this.error = null;
+  // onHandleError() {
+  //   this.error = null;
+  // }
+
+  showAlert(message: string) {
+    const compFactory = this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
+    this.placeholderDirective.viewContainerRef.clear();
+    const compRef = this.placeholderDirective.viewContainerRef.createComponent(compFactory);
+    compRef.instance.message = message;
+    this.alertSub = compRef.instance.acknowledge.subscribe(() => {
+      this.alertSub.unsubscribe();
+      this.placeholderDirective.viewContainerRef.clear();
+    });
   }
 
   ngOnDestroy(): void {
     this.authSub.unsubscribe();
+    if (this.alertSub) {
+      this.alertSub.unsubscribe();
+    }
   }
 }
