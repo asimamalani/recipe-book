@@ -32,6 +32,7 @@ speed-measure-plugin*.json
 .history/*
 
 # misc
+**/*.cache
 /.sass-cache
 /connect.lock
 /coverage
@@ -46,3 +47,4 @@ testem.log
 Thumbs.db
 # Secrets
 secret.ts
+.firebaserc
