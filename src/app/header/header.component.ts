@@ -37,7 +37,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.userSub.unsubscribe();
-    this.recipeSub.unsubscribe();
+    if (this.userSub) {
+      this.userSub.unsubscribe();
+    }
+    if (this.recipeSub) {
+      this.recipeSub.unsubscribe();
+    }
   }
 }
