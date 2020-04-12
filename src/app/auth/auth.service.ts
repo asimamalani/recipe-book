@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
+import { environment } from '../../environments/environment';
 import { AuthRequestBody } from './auth-request-body.model';
 import { AuthResponseData } from './auth-response-data.model';
-import { apiKey } from 'secret';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError, BehaviorSubject } from 'rxjs';
 import { User } from './user.model';
@@ -51,7 +52,7 @@ export class AuthService {
   }
 
   private sendAuthRequest(email: string, password: string, action: string) {
-    const url = `https://identitytoolkit.googleapis.com/v1/accounts:${action}?key=${apiKey}`;
+    const url = `https://identitytoolkit.googleapis.com/v1/accounts:${action}?key=${environment.firebaseApiKey}`;
     const authRequestBody = { email, password, returnSecureToken: true } as AuthRequestBody;
     return this.http
       .post<AuthResponseData>(url, authRequestBody)
