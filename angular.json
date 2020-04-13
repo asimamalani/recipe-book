@@ -105,5 +105,8 @@
       }
     }
   },
-  "defaultProject": "recipe-book"
+  "defaultProject": "recipe-book",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
