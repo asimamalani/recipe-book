@@ -27,12 +27,12 @@ export function shoppingListReducer(state: State = initialState, action: Shoppin
 
     case ShoppingListActions.UPDATE_INGREDIENT:
       const updatedIngredient: Ingredient = {
-        ...state.ingredients[action.payload.index],
-        name: action.payload.ingredient.name,
-        amount: action.payload.ingredient.amount,
+        ...state.editedIngredient,
+        name: action.payload.name,
+        amount: action.payload.amount,
       };
       const updatedIngredients = [...state.ingredients];
-      updatedIngredients[action.payload.index] = updatedIngredient;
+      updatedIngredients[state.editedIngredientIndex] = updatedIngredient;
       return { ...state, ingredients: updatedIngredients };
 
     case ShoppingListActions.DELETE_INGREDIENT:
@@ -40,9 +40,21 @@ export function shoppingListReducer(state: State = initialState, action: Shoppin
         ...state,
         ingredients: [
           ...state.ingredients.filter((_value, index) => {
-            return index !== action.payload;
+            return index !== state.editedIngredientIndex;
           }),
         ],
+      };
+    case ShoppingListActions.START_EDIT:
+      return {
+        ...state,
+        editedIngredientIndex: action.payload,
+        editedIngredient: { ...state.ingredients[action.payload] },
+      };
+    case ShoppingListActions.STOP_EDIT:
+      return {
+        ...state,
+        editedIngredientIndex: -1,
+        editedIngredient: null,
       };
     default:
       return state;
