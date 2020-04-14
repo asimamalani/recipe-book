@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
 import { AlertComponent } from './alert/alert.component';
+import { DropdownDirective } from './dropdown.directive';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
-import { DropdownDirective } from './dropdown.directive';
 import { PlaceholderDirective } from './placeholder.directive';
 
 @NgModule({

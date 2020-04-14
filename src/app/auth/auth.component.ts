@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService } from './auth.service';
-import { Observable, Subscription } from 'rxjs';
-import { AuthResponseData } from './auth-response-data.model';
 import { Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 import { AlertComponent } from '../shared/alert/alert.component';
 import { PlaceholderDirective } from '../shared/placeholder.directive';
+import { AuthResponseData } from './auth-response-data.model';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-auth',

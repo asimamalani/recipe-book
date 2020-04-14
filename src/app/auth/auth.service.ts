@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
-import { environment } from '../../environments/environment';
-import { AuthRequestBody } from './auth-request-body.model';
-import { AuthResponseData } from './auth-response-data.model';
-import { catchError, tap } from 'rxjs/operators';
-import { throwError } from 'rxjs';
-import { User } from './user.model';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 import * as fromApp from '../store/app-reducer';
+import { AuthRequestBody } from './auth-request-body.model';
+import { AuthResponseData } from './auth-response-data.model';
 import * as AuthActions from './store/auth-actions';
+import { User } from './user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
